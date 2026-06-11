@@ -12,6 +12,11 @@ interface GameData {
 const defaultHeroes: Hero[] = [
   { id: '1', name: 'Харкон', color: '#a78b5c', icon: 'https://cdn.poehali.dev/projects/e30d8fab-35c1-42bd-b39e-568266ee863b/bucket/84c60e99-e58b-4763-a09c-b545dd945e1a.png' },
   { id: '2', name: 'Дорф', color: '#f59e0b', icon: 'https://cdn.poehali.dev/projects/e30d8fab-35c1-42bd-b39e-568266ee863b/bucket/1bc3535e-4f5b-47bc-b245-ea1f989c9d49.png' },
+  { id: '3', name: 'Базз', color: '#84cc16', icon: 'https://cdn.poehali.dev/projects/e30d8fab-35c1-42bd-b39e-568266ee863b/bucket/61f28718-1f3c-4f79-a245-dcba1283c55c.png' },
+  { id: '4', name: 'Селеста', color: '#3b82f6', icon: 'https://cdn.poehali.dev/projects/e30d8fab-35c1-42bd-b39e-568266ee863b/bucket/b08c7982-9ede-4ae9-bc06-be23b17647f9.png' },
+  { id: '5', name: 'Чана', color: '#06b6d4', icon: 'https://cdn.poehali.dev/projects/e30d8fab-35c1-42bd-b39e-568266ee863b/bucket/e53c958f-b500-43f5-b3cf-82503f703254.png' },
+  { id: '6', name: 'Енох', color: '#f97316', icon: 'https://cdn.poehali.dev/projects/e30d8fab-35c1-42bd-b39e-568266ee863b/bucket/3d0b2116-89c7-45b2-a992-9c66200e9dd2.png' },
+  { id: '7', name: 'Ферн', color: '#8b5cf6', icon: 'https://cdn.poehali.dev/projects/e30d8fab-35c1-42bd-b39e-568266ee863b/bucket/e01643c3-0c2b-4df6-addd-8732ff25aaae.png' },
 ];
 
 const defaultPlayers: Player[] = [
