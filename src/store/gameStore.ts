@@ -10,12 +10,8 @@ interface GameData {
 }
 
 const defaultHeroes: Hero[] = [
-  { id: '1', name: 'Феникс', color: '#ef4444' },
-  { id: '2', name: 'Призрак', color: '#8b5cf6' },
-  { id: '3', name: 'Шторм', color: '#3b82f6' },
-  { id: '4', name: 'Железо', color: '#6b7280' },
-  { id: '5', name: 'Ворон', color: '#1f2937' },
-  { id: '6', name: 'Искра', color: '#f59e0b' },
+  { id: '1', name: 'Харкон', color: '#a78b5c', icon: 'https://cdn.poehali.dev/projects/e30d8fab-35c1-42bd-b39e-568266ee863b/bucket/84c60e99-e58b-4763-a09c-b545dd945e1a.png' },
+  { id: '2', name: 'Дорф', color: '#f59e0b', icon: 'https://cdn.poehali.dev/projects/e30d8fab-35c1-42bd-b39e-568266ee863b/bucket/1bc3535e-4f5b-47bc-b245-ea1f989c9d49.png' },
 ];
 
 const defaultPlayers: Player[] = [
