@@ -209,7 +209,8 @@ export default function AddModal({ heroes, players, onAddHero, onAddPlayer, onAd
                 <label className="block text-xs text-muted-foreground mb-1.5 font-medium uppercase tracking-wider">Скриншот сборки</label>
                 <input ref={fileRef} type="file" accept="image/*" className="hidden" onChange={e => handleImageChange(e, setImagePreview)} />
                 <button
-                  onClick={() => fileRef.current?.click()}
+                  type="button"
+                  onClick={e => { e.preventDefault(); e.stopPropagation(); fileRef.current?.click(); }}
                   className={`w-full rounded-xl border-2 border-dashed transition-all ${imagePreview ? 'border-cyan-400/40 p-1' : 'border-white/15 hover:border-cyan-400/40 p-8'}`}
                 >
                   {imagePreview ? (
@@ -242,7 +243,8 @@ export default function AddModal({ heroes, players, onAddHero, onAddPlayer, onAd
                 <input ref={heroFileRef} type="file" accept="image/*" className="hidden" onChange={e => handleImageChange(e, setHeroIconPreview)} />
                 <div className="flex items-center gap-4">
                   <button
-                    onClick={() => heroFileRef.current?.click()}
+                    type="button"
+                    onClick={e => { e.preventDefault(); e.stopPropagation(); heroFileRef.current?.click(); }}
                     className="w-20 h-20 rounded-2xl border-2 border-dashed border-white/15 hover:border-cyan-400/40 flex items-center justify-center transition-all overflow-hidden"
                     style={{ background: heroIconPreview ? 'transparent' : `${heroColor}22` }}
                   >
