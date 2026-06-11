@@ -24,6 +24,8 @@ const HERO_COLORS = [
   '#84cc16', '#6b7280',
 ];
 
+const randomColor = () => HERO_COLORS[Math.floor(Math.random() * HERO_COLORS.length)];
+
 type Tab = 'build' | 'hero' | 'player';
 
 export default function AddModal({ heroes, players, onAddHero, onAddPlayer, onAddBuild, onClose }: AddModalProps) {
@@ -41,7 +43,7 @@ export default function AddModal({ heroes, players, onAddHero, onAddPlayer, onAd
 
   // Hero form
   const [heroName, setHeroName] = useState('');
-  const [heroColor, setHeroColor] = useState(HERO_COLORS[0]);
+  const [heroColor] = useState(randomColor);
   const [heroIconPreview, setHeroIconPreview] = useState<string | null>(null);
   const heroFileRef = useRef<HTMLInputElement>(null);
 
@@ -241,33 +243,18 @@ export default function AddModal({ heroes, players, onAddHero, onAddPlayer, onAd
               <div>
                 <label className="block text-xs text-muted-foreground mb-1.5 font-medium uppercase tracking-wider">Иконка героя (необязательно)</label>
                 <input ref={heroFileRef} type="file" accept="image/*" className="hidden" onChange={e => handleImageChange(e, setHeroIconPreview)} />
-                <div className="flex items-center gap-4">
-                  <button
-                    type="button"
-                    onClick={e => { e.preventDefault(); e.stopPropagation(); heroFileRef.current?.click(); }}
-                    className="w-20 h-20 rounded-2xl border-2 border-dashed border-white/15 hover:border-cyan-400/40 flex items-center justify-center transition-all overflow-hidden"
-                    style={{ background: heroIconPreview ? 'transparent' : `${heroColor}22` }}
-                  >
-                    {heroIconPreview ? (
-                      <img src={heroIconPreview} alt="Hero" className="w-full h-full object-cover" />
-                    ) : (
-                      <Icon name="ImagePlus" size={24} className="text-muted-foreground" />
-                    )}
-                  </button>
-                  <div className="flex-1">
-                    <p className="text-xs text-muted-foreground mb-2">Цвет героя</p>
-                    <div className="flex flex-wrap gap-2">
-                      {HERO_COLORS.map(c => (
-                        <button
-                          key={c}
-                          onClick={() => setHeroColor(c)}
-                          className={`w-7 h-7 rounded-full transition-transform ${heroColor === c ? 'scale-125 ring-2 ring-white/60' : 'hover:scale-110'}`}
-                          style={{ background: c }}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                </div>
+                <button
+                  type="button"
+                  onClick={e => { e.preventDefault(); e.stopPropagation(); heroFileRef.current?.click(); }}
+                  className="w-20 h-20 rounded-2xl border-2 border-dashed border-white/15 hover:border-cyan-400/40 flex items-center justify-center transition-all overflow-hidden"
+                  style={{ background: heroIconPreview ? 'transparent' : `${heroColor}22` }}
+                >
+                  {heroIconPreview ? (
+                    <img src={heroIconPreview} alt="Hero" className="w-full h-full object-cover" />
+                  ) : (
+                    <Icon name="ImagePlus" size={24} className="text-muted-foreground" />
+                  )}
+                </button>
               </div>
 
               <div>
