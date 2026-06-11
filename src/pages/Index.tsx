@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Icon from '@/components/ui/icon';
 import { useGameStore } from '@/store/gameStore';
 import { Hero, Player, Screen } from '@/types/game';
@@ -14,6 +14,9 @@ export default function Index() {
   const [showModal, setShowModal] = useState(false);
   const [editingHero, setEditingHero] = useState<Hero | null>(null);
   const [editHeroName, setEditHeroName] = useState('');
+  const [editHeroIcon, setEditHeroIcon] = useState<string | null>(null);
+  const [deletingHero, setDeletingHero] = useState<Hero | null>(null);
+  const editIconRef = useRef<HTMLInputElement>(null);
 
   const goBack = () => {
     if (screen === 'build') { setSelectedRound(null); setScreen('rounds'); }
@@ -148,13 +151,13 @@ export default function Index() {
                   {/* Edit/Delete overlay */}
                   <div className="absolute top-1 left-1 hidden group-hover:flex gap-1 z-10">
                     <button
-                      onClick={e => { e.stopPropagation(); setEditingHero(hero); setEditHeroName(hero.name); }}
+                      onClick={e => { e.stopPropagation(); setEditingHero(hero); setEditHeroName(hero.name); setEditHeroIcon(hero.icon || null); }}
                       className="w-6 h-6 rounded-md bg-black/60 flex items-center justify-center hover:bg-white/20 transition-colors"
                     >
                       <Icon name="Pencil" size={11} className="text-white" />
                     </button>
                     <button
-                      onClick={e => { e.stopPropagation(); store.deleteHero(hero.id); }}
+                      onClick={e => { e.stopPropagation(); setDeletingHero(hero); }}
                       className="w-6 h-6 rounded-md bg-black/60 flex items-center justify-center hover:bg-red-500/60 transition-colors"
                     >
                       <Icon name="Trash2" size={11} className="text-white" />
@@ -403,6 +406,48 @@ export default function Index() {
             onClick={e => e.stopPropagation()}
           >
             <h3 className="font-rajdhani font-bold text-lg text-white mb-4">Редактировать героя</h3>
+
+            {/* Avatar picker */}
+            <div className="flex items-center gap-4 mb-4">
+              <input
+                ref={editIconRef}
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={e => {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+                  const reader = new FileReader();
+                  reader.onload = ev => setEditHeroIcon(ev.target?.result as string);
+                  reader.readAsDataURL(file);
+                }}
+              />
+              <button
+                type="button"
+                onClick={e => { e.preventDefault(); e.stopPropagation(); editIconRef.current?.click(); }}
+                className="w-16 h-16 rounded-2xl border-2 border-dashed border-white/20 hover:border-purple-400/50 flex items-center justify-center overflow-hidden transition-all shrink-0"
+                style={{ background: editHeroIcon ? 'transparent' : `${editingHero.color}22` }}
+              >
+                {editHeroIcon ? (
+                  <img src={editHeroIcon} alt="icon" className="w-full h-full object-cover" />
+                ) : (
+                  <Icon name="ImagePlus" size={20} className="text-muted-foreground" />
+                )}
+              </button>
+              <div className="flex-1">
+                <p className="text-xs text-muted-foreground mb-1">Аватарка героя</p>
+                {editHeroIcon && (
+                  <button
+                    type="button"
+                    onClick={() => setEditHeroIcon(null)}
+                    className="text-xs text-red-400 hover:text-red-300 transition-colors"
+                  >
+                    Удалить иконку
+                  </button>
+                )}
+              </div>
+            </div>
+
             <input
               type="text"
               value={editHeroName}
@@ -410,14 +455,15 @@ export default function Index() {
               className="w-full bg-secondary border border-border rounded-xl px-3 py-2.5 text-sm text-foreground focus:outline-none focus:border-purple-400/60 mb-4"
             />
             <div className="flex gap-2">
-              <button onClick={() => setEditingHero(null)}
+              <button type="button" onClick={() => setEditingHero(null)}
                 className="flex-1 py-2.5 rounded-xl text-sm text-muted-foreground hover:text-white bg-secondary transition-colors">
                 Отмена
               </button>
               <button
+                type="button"
                 onClick={() => {
                   if (editHeroName.trim()) {
-                    store.updateHero(editingHero.id, { name: editHeroName.trim() });
+                    store.updateHero(editingHero.id, { name: editHeroName.trim(), icon: editHeroIcon || undefined });
                     setEditingHero(null);
                   }
                 }}
@@ -425,6 +471,44 @@ export default function Index() {
                 style={{ background: 'linear-gradient(135deg, #a855f7, #7c3aed)', color: '#fff' }}
               >
                 Сохранить
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Hero confirm */}
+      {deletingHero && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4" onClick={() => setDeletingHero(null)}>
+          <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
+          <div
+            className="relative w-full max-w-xs glass-card rounded-2xl p-5 animate-scale-in"
+            style={{ border: '1px solid rgba(239,68,68,0.35)' }}
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="flex items-center gap-3 mb-3">
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0" style={{ background: 'rgba(239,68,68,0.15)' }}>
+                <Icon name="Trash2" size={18} className="text-red-400" />
+              </div>
+              <h3 className="font-rajdhani font-bold text-lg text-white">Удалить героя?</h3>
+            </div>
+            <p className="text-sm text-muted-foreground mb-1">
+              Герой <span className="text-white font-medium">«{deletingHero.name}»</span> будет удалён.
+            </p>
+            <p className="text-sm text-red-400/80 mb-5">
+              Все сборки этого героя ({buildCount(deletingHero.id)} шт.) тоже будут удалены безвозвратно.
+            </p>
+            <div className="flex gap-2">
+              <button type="button" onClick={() => setDeletingHero(null)}
+                className="flex-1 py-2.5 rounded-xl text-sm text-muted-foreground hover:text-white bg-secondary transition-colors">
+                Отмена
+              </button>
+              <button
+                type="button"
+                onClick={() => { store.deleteHero(deletingHero.id); setDeletingHero(null); }}
+                className="flex-1 py-2.5 rounded-xl text-sm font-bold transition-colors bg-red-500/80 hover:bg-red-500 text-white"
+              >
+                Удалить
               </button>
             </div>
           </div>
