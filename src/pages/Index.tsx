@@ -113,24 +113,34 @@ export default function Index() {
                 <div key={hero.id} className="relative group" style={{ animationDelay: `${i * 0.05}s` }}>
                   <button
                     onClick={() => { setSelectedHero(hero); setScreen('players'); }}
-                    className="w-full aspect-square rounded-2xl hero-card-hover flex flex-col items-center justify-center gap-2 relative overflow-hidden"
-                    style={{
-                      background: `linear-gradient(135deg, ${hero.color}22, ${hero.color}11)`,
-                      border: `1px solid ${hero.color}44`,
-                    }}
+                    className="w-full aspect-square rounded-2xl hero-card-hover relative overflow-hidden"
+                    style={{ border: `1px solid ${hero.color}44` }}
                   >
+                    {/* Background */}
                     {hero.icon ? (
-                      <img src={hero.icon} alt={hero.name} className="w-12 h-12 object-cover rounded-xl" />
+                      <img src={hero.icon} alt={hero.name} className="absolute inset-0 w-full h-full object-cover" />
                     ) : (
-                      <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl font-rajdhani font-bold"
-                        style={{ background: `${hero.color}33`, color: hero.color }}>
-                        {hero.name.charAt(0)}
+                      <div className="absolute inset-0 flex items-center justify-center"
+                        style={{ background: `linear-gradient(135deg, ${hero.color}33, ${hero.color}11)` }}>
+                        <span className="font-rajdhani font-bold text-5xl opacity-60"
+                          style={{ color: hero.color }}>
+                          {hero.name.charAt(0)}
+                        </span>
                       </div>
                     )}
-                    <span className="text-xs font-medium text-white/80 px-1 text-center leading-tight">{hero.name}</span>
+
+                    {/* Gradient overlay + name */}
+                    <div className="absolute inset-x-0 bottom-0 pt-6 pb-2 px-2 flex items-end justify-center"
+                      style={{ background: 'linear-gradient(to top, rgba(0,0,0,0.82) 0%, transparent 100%)' }}>
+                      <span className="font-rajdhani font-bold text-sm text-white leading-tight text-center w-full drop-shadow">
+                        {hero.name}
+                      </span>
+                    </div>
+
+                    {/* Build count badge */}
                     {buildCount(hero.id) > 0 && (
                       <span className="absolute top-2 right-2 text-xs font-bold px-1.5 py-0.5 rounded-full"
-                        style={{ background: `${hero.color}44`, color: hero.color, fontSize: '10px' }}>
+                        style={{ background: `${hero.color}88`, color: '#fff', fontSize: '10px' }}>
                         {buildCount(hero.id)}
                       </span>
                     )}
