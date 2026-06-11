@@ -22,6 +22,9 @@ const defaultHeroes: Hero[] = [
   { id: '10', name: 'Нимфа', color: '#10b981', icon: 'https://cdn.poehali.dev/projects/e30d8fab-35c1-42bd-b39e-568266ee863b/bucket/b4d79ba0-4e94-4165-b319-81871c4f8bc6.png' },
   { id: '11', name: 'Пеппер', color: '#f97316', icon: 'https://cdn.poehali.dev/projects/e30d8fab-35c1-42bd-b39e-568266ee863b/bucket/1a414950-084b-41d9-8def-309cc2ee1b6c.png' },
   { id: '12', name: 'Ронан', color: '#84cc16', icon: 'https://cdn.poehali.dev/projects/e30d8fab-35c1-42bd-b39e-568266ee863b/bucket/c5e4c999-3b8e-4370-b2ae-59f13d94da81.png' },
+  { id: '13', name: 'Сага', color: '#ec4899', icon: 'https://cdn.poehali.dev/projects/e30d8fab-35c1-42bd-b39e-568266ee863b/bucket/99d2159e-12a6-48d5-b0b2-80dde19274d3.png' },
+  { id: '14', name: 'Тинк', color: '#f97316', icon: 'https://cdn.poehali.dev/projects/e30d8fab-35c1-42bd-b39e-568266ee863b/bucket/d4016888-bc66-4367-bcda-cc9f2ac8cf09.png' },
+  { id: '15', name: 'Хоб', color: '#10b981', icon: 'https://cdn.poehali.dev/projects/e30d8fab-35c1-42bd-b39e-568266ee863b/bucket/a723e283-3ccb-4822-ad01-e09e5b9c4754.png' },
 ];
 
 const defaultPlayers: Player[] = [
